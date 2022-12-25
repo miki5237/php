@@ -1,0 +1,103 @@
+<?php
+	include '../connect/connect.php';
+	include '../connect/session.php';
+?>
+
+<!doctype html>
+<html lang="ko">
+	<head>
+		<?php
+		    include '../dom/head-meta.php';
+		?>
+		<title>PHP Reference</title>
+		<?php
+		    include '../dom/head-link.php';
+		?>
+		
+		<style>
+		.bd-placeholder-img {
+			font-size: 1.125rem;
+			text-anchor: middle;
+			-webkit-user-select: none;
+			-moz-user-select: none;
+			-ms-user-select: none;
+			user-select: none;
+		}
+		@media (min-width: 768px) {
+			.bd-placeholder-img-lg {
+				font-size: 3.5rem;
+			}
+		}
+		</style>
+	</head>
+	<body>
+		<div class="container">
+			<!-- blog-header -->
+			<?php
+			    include '../dom/blog-header.php';
+			?>
+			<!-- //blog-header -->
+
+			<!-- blog-nav -->
+			<?php
+			    include '../dom/blog-nav.php';
+			?>
+			<!-- //blog-nav -->
+		</div>
+		
+		<main role="main" class="container">
+			<div class="row">
+				<div class="col-md-8 blog-main">
+
+					<div class="blog-post">
+						<h2 class="blog-post-title">1.1 데이터베이스 접속하기</h2>
+						<p class="blog-post-meta">by <a href="#">Web's</a></p>
+						<hr>
+						<p>connect 폴더를 만들고 connect.php 파일을 만듭니다.</p>
+<pre><code class="language-php">&lt;?php
+	$host = "localhost";
+	$user = "richclub9";
+	$pw = "******";
+	$dbName = "richclub9";
+	$dbConnect = new mysqli($host, $user, $pw, $dbName);
+	$dbConnect->set_charset("utf8");
+	
+	if(mysqli_connect_errno()){
+		echo "database connect false";
+	}
+?&gt;</code></pre>
+					</div>
+					<!-- //blog-post -->
+
+					<nav class="blog-pagination">
+						<a class="btn btn-outline-secondary disabled" href="project01.html"  tabindex="-1" aria-disabled="true">Older</a>
+						<a class="btn btn-outline-primary " href="project02.html">Newer</a>
+					</nav>
+				</div>
+				<!-- //col-md-8 -->
+
+				<aside class="col-md-4 blog-sidebar">
+					<!-- //blog-sidebar -->
+					<?php
+					    include '../dom/blog-aside.php';
+					?>
+					<!-- //blog-sidebar -->
+				</aside>
+				
+			</div>
+			<!-- //row --> 
+		</main>
+		<!-- //container -->
+		
+		<!-- blog-footer -->
+		<?php
+		    include '../dom/blog-footer.php';
+		?>
+		<!-- //blog-footer -->
+	</body>
+</html>
+
+
+
+
+

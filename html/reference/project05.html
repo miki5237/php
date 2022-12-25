@@ -1,0 +1,280 @@
+<?php
+    include '../connect/connect.php';
+    include '../connect/session.php';
+?>
+
+<!doctype html>
+<html lang="ko">
+    <head>
+        <?php
+            include '../dom/head-meta.php';
+        ?>
+        <title>PHP Reference</title>
+        <?php
+            include '../dom/head-link.php';
+        ?>
+        
+        <style>
+        .bd-placeholder-img {
+            font-size: 1.125rem;
+            text-anchor: middle;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+        @media (min-width: 768px) {
+            .bd-placeholder-img-lg {
+                font-size: 3.5rem;
+            }
+        }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <!-- blog-header -->
+            <?php
+                include '../dom/blog-header.php';
+            ?>
+            <!-- //blog-header -->
+
+            <!-- blog-nav -->
+            <?php
+                include '../dom/blog-nav.php';
+            ?>
+            <!-- //blog-nav -->
+        </div>
+        
+        <main role="main" class="container">
+            <div class="row">
+                <div class="col-md-8 blog-main">
+
+                    <div class="blog-post">
+                    <h2 class="blog-post-title mb-2">5.1 게시판 테이블 만들기</h2>
+                    <p class="blog-post-meta">by <a href="#">Web's</a></p>
+
+                    <p>게시판을 만들기 위해 게시판 테이블을 만들겠습니다.</p>
+                    <hr>
+                    <p>create 폴더에 createBoard.php 페이지를 만듭니다. 게시판 버튼을 클릭하면 게시판 테이블이 만들어집니다. <a href="../create/createBoard.php">게시판 테이블 만들기</a></p>
+<pre class="language-php"><code>&lt;?php
+    include '../connect/connect.php';
+
+    $sql = "CREATE TABLE board (";
+    $sql .= "boardID int(10) unsigned NOT NULL AUTO_INCREMENT,";
+    $sql .= "memberID int(10) unsigned NOT NULL,";
+    $sql .= "title varchar(50) NOT NULL,";
+    $sql .= "content longtext NOT NULL,";
+    $sql .= "regTime int(10) unsigned NOT NULL,";
+    $sql .= "PRIMARY KEY (boardID)";
+    $sql .= ") CHARSET=utf8";
+
+    $res = $dbConnect->query($sql);
+
+    if ( $res ) {
+        echo "Create Table Complete";
+    } else {
+        echo "Create Table False";
+    }
+?&gt;</code></pre>
+                </div>
+                <!-- //blog-post -->
+
+                    <div class="blog-post">
+                    <h2 class="blog-post-title mb-2">5.2 로그인 세션 처리하기</h2>
+                    <p class="blog-post-meta">by <a href="#">Web's</a></p>
+
+                    <p>로그인 되지 않은 경우 게시판 기능을 사용할 수 없습니다.</p>
+                    <hr>
+                    <p>create 폴더에 <a href="../create/createSession.php">createSession.php</a> 파일을 만듭니다.</p>
+<pre class="language-php"><code>&lt;?php
+    if(!isset($_SESSION['memberID'])){
+        Header("Location:../sign/signInForm.php");
+        exit;
+    }
+?&gt;</code></pre>
+                </div>
+                <!-- //blog-post -->
+
+                    <div class="blog-post">
+                    <h2 class="blog-post-title mb-2">5.3 게시글 작성폼 만들기</h2>
+                    <p class="blog-post-meta">by <a href="#">Web's</a></p>
+
+                    <p>게시글의 내용을 입력하는 폼을 제작합니다.</p>
+                    <hr>
+                    <p>board 폴더에 <a href="../board/writeBoard.php">writeBoard.php</a> 파일을 만듭니다.</p>
+<pre class="language-php"><code>&lt;?php
+    if(!isset($_SESSION['memberID'])){
+        Header("Location:../sign/signInForm.php");
+        exit;
+    }
+?&gt;</code></pre>
+                </div>
+                <!-- //blog-post -->
+
+                    <div class="blog-post">
+                    <h2 class="blog-post-title mb-2">5.4 게시글 데이터 저장하기</h2>
+                    <p class="blog-post-meta">by <a href="#">Web's</a></p>
+
+                    <p>게시글의 내용을 board 테이블에 저장을 합니다.</p>
+                    <hr>
+                    <p>board 폴더에 <a href="../board/saveBoard.php">saveBoard.php</a> 파일을 만듭니다.</p>
+<pre class="language-php"><code>&lt;?php
+    if(!isset($_SESSION['memberID'])){
+        Header("Location:../sign/signInForm.php");
+        exit;
+    }
+?&gt;</code></pre>
+                </div>
+                <!-- //blog-post -->
+
+                <div class="blog-post">
+                    <h2 class="blog-post-title mb-2">5.5 임의로 게시글 만들기</h2>
+                    <p class="blog-post-meta">by <a href="#">Web's</a></p>
+
+                    <p>게시판 테스트를 위하여 임의로 게시글을 만듭니다.</p>
+                    <hr>
+                    <p>board 폴더에 <a href="../board/inputData.php">inputData.php</a> 파일을 만듭니다.</p>
+                    
+<pre class="language-php"><code>&lt;?php
+    include '../connect/connect.php';
+    include '../connect/session.php';
+    include '../connect/checkSession.php';
+
+    for($i = 1; $i &lt;= 165; $i++){
+        $time = time();
+        $sql = "INSERT INTO board (memberID, title, content, regTime) VALUES (1, '{$i}번째 제목', '{$i}번째 내용', {$time})";
+        $result = $dbConnect->query($sql);
+        
+        if($result){
+            echo "{$i}번째 데이터 입력완료";
+        }else{
+            echo "{$i}번째 데이터 입력실패";
+        }
+        echo '&lt;br&gt;';
+    }
+?&gt;</code></pre>
+                    
+                </div>
+                <!-- //blog-post -->
+                
+                
+                
+                <div class="blog-post">
+                    <h2 class="blog-post-title mb-2">5.6 게시물 목록 페이지 만들기</h2>
+                    <p class="blog-post-meta">by <a href="#">Web's</a></p>
+
+                    <p>게시물 목록으로 보여주기 위한 페이지를 제작합니다.</p>
+                    <hr>
+                    <p>board 폴더에 <a href="../board/listBoard.php">listBoard.php</a> 파일을 만듭니다.</p>
+                    
+<pre class="language-php"><code>&lt;?php
+    
+?&gt;</code></pre>
+                    
+                </div>
+                <!-- //blog-post -->
+                
+                
+                
+                <div class="blog-post">
+                    <h2 class="blog-post-title mb-2">5.7 다음 페이지 이동 링크 만들기</h2>
+                    <p class="blog-post-meta">by <a href="#">Web's</a></p>
+
+                    <p>게시글 페이지 별로 보여주기 위한 작업입니다.</p>
+                    <hr>
+                    <p>board 폴더에 <a href="../board/nextPageLink.php">nextPageLink.php</a> 파일을 만듭니다.</p>
+                    
+<pre class="language-php"><code>&lt;?php
+    &lt;?php
+    //전체 레코드 수 구하기
+    $sql = "SELECT count(boardID) FROM board";
+    $result = $dbConnect-&gt;query($sql);
+
+    $boardTotalCount = $result-&gt;fetch_array(MYSQLI_ASSOC);
+    $boardTotalCount = $boardTotalCount['count(boardID)'];
+
+    //총 페이지 수
+    $totalPage = ceil($boardTotalCount / $numView);
+
+    //처음 페이지 이동 링크
+    echo "&lt;a href='./listBoard.php?page=1'&gt;처음&lt;/a&gt;&nbsp;";
+
+    //이전 페이지 이동 링크
+    if($page != 1){
+        $previousPage = $page - 1;
+        echo "&lt;a href='./listBoard.php?page={$previousPage}'&gt;이전&lt;/a&gt;";
+    }
+
+    //현재 페이지의 앞 뒤 페이지 수 표시수
+    $pageTerm = 5;
+
+    //처음 표시할 페이지를 현재 페이지를 기준으로 5개 이전까지만 표시
+    $startPage = $page - $pageTerm;
+
+    //음수일 경우 처리5
+    if($startPage &lt; 1){
+        $startPage = 1;
+    }
+
+    //처음 표시할 페이지를 현재 페이지를 기준으로 5개 이전까지만 표시
+    $lastPage = $page + $pageTerm;
+
+    //마지막페이지의 수보다 클 경우 처리
+    if($lastPage &gt;= $totalPage){
+        $lastPage = $totalPage;
+    }
+
+    for($i = $startPage; $i &lt;= $lastPage; $i++){
+        $nowPageColor = 'unset';
+        if($i == $page){
+            $nowPageColor = 'hotpink';
+        }
+        echo "&nbsp&lt;a href='./listBoard.php?page={$i}'";
+        echo "style='color:{$nowPageColor}'&gt;{$i}&lt;/a&gt;&nbsp";
+    }
+
+    //다음 페이지 이동 링크
+    if($page != $totalPage){
+        $nextPage = $page + 1;
+        echo "&lt;a href='./listBoard.php?page={$nextPage}'&gt;다음&lt;/a&gt;";
+    }
+
+    //마지막 페이지 이동 링크
+    echo "&nbsp;&lt;a href='./listBoard.php?page={$totalPage}'&gt;끝&lt;/a&gt;";
+?&gt;</code></pre>
+                    
+                </div>
+                <!-- //blog-post -->
+
+                    <nav class="blog-pagination">
+                        <a class="btn btn-outline-primary" href="project04.html">Older</a>
+                        <a class="btn btn-outline-primary" href="project06.html">Newer</a>
+                    </nav>
+                </div>
+                <!-- //col-md-8 -->
+
+                <aside class="col-md-4 blog-sidebar">
+                    <!-- //blog-sidebar -->
+                    <?php
+                        include '../dom/blog-aside.php';
+                    ?>
+                    <!-- //blog-sidebar -->
+                </aside>
+                
+            </div>
+            <!-- //row --> 
+        </main>
+        <!-- //container -->
+        
+        <!-- blog-footer -->
+        <?php
+            include '../dom/blog-footer.php';
+        ?>
+        <!-- //blog-footer -->
+    </body>
+</html>
+
+
+
+
+
